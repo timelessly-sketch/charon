@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"charon/internal/router"
+	"charon/internal/service"
 	"context"
 
 	"github.com/gogf/gf/v2/frame/g"
@@ -15,10 +17,17 @@ var (
 		Brief: "start http server",
 		Func: func(ctx context.Context, parser *gcmd.Parser) (err error) {
 			s := g.Server()
-			g.Log().Info(ctx, "start http server")
-			s.Group("/", func(group *ghttp.RouterGroup) {
+
+			// 注册全局中间件
+			s.BindMiddleware("/*any", []ghttp.HandlerFunc{
+				service.Middleware().AuthMiddleware,
+				service.Middleware().CORS,
+			}...)
+
+			s.Group("/api", func(group *ghttp.RouterGroup) {
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
-				group.Bind()
+				router.Auth(ctx, group)
+				router.System(ctx, group)
 			})
 			s.Run()
 			return nil
