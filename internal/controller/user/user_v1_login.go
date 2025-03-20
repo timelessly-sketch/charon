@@ -1,0 +1,29 @@
+package user
+
+import (
+	"charon/internal/consts"
+	"charon/internal/library/jwt"
+	"charon/internal/service"
+	"context"
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/frame/g"
+
+	"charon/api/user/v1"
+)
+
+func (c *ControllerV1) Login(ctx context.Context, req *v1.LoginReq) (res *v1.LoginRes, err error) {
+	user, err := service.User().UserByNickName(ctx, req.Username)
+	if err != nil {
+		g.Log().Warning(ctx, err)
+		return nil, gerror.NewCode(consts.CodeUserNotFound)
+	}
+	generateJWT, err := jwt.GenerateJWT(user.Id, user.NickName)
+	if err != nil {
+		g.Log().Warning(ctx, err)
+		return nil, gerror.NewCode(consts.CodeGenerateToken)
+	}
+	res = &v1.LoginRes{
+		Token: generateJWT,
+	}
+	return
+}
