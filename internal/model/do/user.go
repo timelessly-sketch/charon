@@ -14,13 +14,17 @@ type User struct {
 	g.Meta     `orm:"table:tb_user, do:true"`
 	Id         interface{} // 自增ID
 	NickName   interface{} // 昵称
-	RealName   interface{} // 用户名
+	UserName   interface{} // 英文名
+	Name       interface{} // 中文名
+	Department interface{} // 部门
+	UserId     interface{} // 用户Id
 	RoleName   interface{} // 角色组
 	Email      interface{} // 邮箱
+	Phone      interface{} // 电话
 	Status     interface{} // 0-禁用, 1-正常
 	AvatarUrl  interface{} // 头像
-	Department interface{} // 部门
 	CreatedAt  *gtime.Time // 创建时间
+	UpdatedBy  interface{} // 更新人
 	UpdatedAt  *gtime.Time // 更新时间
 	DeletedAt  *gtime.Time // 删除时间
 }

@@ -4,7 +4,6 @@ import (
 	"charon/internal/consts"
 	"charon/internal/library/jwt"
 	"charon/internal/service"
-	"fmt"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"net/http"
 )
@@ -28,7 +27,6 @@ func (m *sMiddleware) AuthMiddleware(r *ghttp.Request) {
 	}
 
 	authHeader := r.Header.Get("Authorization")
-	fmt.Println(authHeader, "1111", r.RequestURI)
 	if authHeader == "" {
 		r.Response.WriteStatusExit(http.StatusInternalServerError, consts.CodeTokenInvalid)
 		return

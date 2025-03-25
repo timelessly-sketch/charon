@@ -11,7 +11,7 @@ import (
 
 func (c *ControllerV1) Info(ctx context.Context, _ *v1.InfoReq) (res *v1.InfoRes, err error) {
 	name := g.RequestFromCtx(ctx).GetCtxVar("name").String()
-	user, _ := service.User().UserByNickName(ctx, name)
+	user, _ := service.User().UserByUserName(ctx, name)
 	res = &v1.InfoRes{
 		Id:       user.Id,
 		NickName: user.NickName,

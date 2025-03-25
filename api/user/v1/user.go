@@ -1,6 +1,8 @@
 package v1
 
-import "github.com/gogf/gf/v2/frame/g"
+import (
+	"github.com/gogf/gf/v2/frame/g"
+)
 
 type LoginReq struct {
 	g.Meta   `path:"/login" method:"post" summary:"用户登录" noAuth:"true"`
@@ -9,7 +11,11 @@ type LoginReq struct {
 }
 
 type LoginRes struct {
-	Token string `json:"token"`
+	Id       int    `json:"id"`
+	Avatar   string `json:"avatar"`
+	Username string `json:"username"`
+	Role     string `json:"role"`
+	Token    string `json:"token"`
 }
 
 type InfoReq struct {

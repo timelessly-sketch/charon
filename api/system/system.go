@@ -12,4 +12,5 @@ import (
 
 type ISystemV1 interface {
 	RoleList(ctx context.Context, req *v1.RoleListReq) (res *v1.RoleListRes, err error)
+	UserList(ctx context.Context, req *v1.UserListReq) (res *v1.UserListRes, err error)
 }

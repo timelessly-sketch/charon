@@ -12,18 +12,22 @@ import (
 )
 
 func (c *ControllerV1) Login(ctx context.Context, req *v1.LoginReq) (res *v1.LoginRes, err error) {
-	user, err := service.User().UserByNickName(ctx, req.Username)
+	user, err := service.User().UserByUserName(ctx, req.Username)
 	if err != nil {
 		g.Log().Warning(ctx, err)
 		return nil, gerror.NewCode(consts.CodeUserNotFound)
 	}
-	generateJWT, err := jwt.GenerateJWT(user.Id, user.NickName)
+	generateJWT, err := jwt.GenerateJWT(user.Id, user.UserName)
 	if err != nil {
 		g.Log().Warning(ctx, err)
 		return nil, gerror.NewCode(consts.CodeGenerateToken)
 	}
 	res = &v1.LoginRes{
-		Token: generateJWT,
+		Id:       user.Id,
+		Username: user.UserName,
+		Avatar:   user.AvatarUrl,
+		Token:    generateJWT,
+		Role:     user.RoleName,
 	}
 	return
 }

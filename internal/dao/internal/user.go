@@ -23,13 +23,17 @@ type UserDao struct {
 type UserColumns struct {
 	Id         string // 自增ID
 	NickName   string // 昵称
-	RealName   string // 用户名
+	UserName   string // 英文名
+	Name       string // 中文名
+	Department string // 部门
+	UserId     string // 用户Id
 	RoleName   string // 角色组
 	Email      string // 邮箱
+	Phone      string // 电话
 	Status     string // 0-禁用, 1-正常
 	AvatarUrl  string // 头像
-	Department string // 部门
 	CreatedAt  string // 创建时间
+	UpdatedBy  string // 更新人
 	UpdatedAt  string // 更新时间
 	DeletedAt  string // 删除时间
 }
@@ -38,13 +42,17 @@ type UserColumns struct {
 var userColumns = UserColumns{
 	Id:         "id",
 	NickName:   "nick_name",
-	RealName:   "real_name",
+	UserName:   "user_name",
+	Name:       "name",
+	Department: "department",
+	UserId:     "user_id",
 	RoleName:   "role_name",
 	Email:      "email",
+	Phone:      "phone",
 	Status:     "status",
 	AvatarUrl:  "avatar_url",
-	Department: "department",
 	CreatedAt:  "created_at",
+	UpdatedBy:  "updated_by",
 	UpdatedAt:  "updated_at",
 	DeletedAt:  "deleted_at",
 }
