@@ -17,13 +17,3 @@ type LoginRes struct {
 	Role     string `json:"role"`
 	Token    string `json:"token"`
 }
-
-type InfoReq struct {
-	g.Meta `path:"/getUserInfo" method:"get" summary:"获取用户详情"`
-}
-
-type InfoRes struct {
-	Id       int      `json:"id"`
-	NickName string   `json:"nick_name"`
-	Roles    []string `json:"roles"`
-}

@@ -17,8 +17,8 @@ func init() {
 	service.RegisterUser(NewUser())
 }
 
-func (u *sUser) UserByUserName(ctx context.Context, username string) (record entity.User, err error) {
-	err = dao.User.Ctx(ctx).Where(dao.User.Columns().UserName, username).Scan(&record)
+func (u *sUser) Select(ctx context.Context, data entity.User) (record entity.User, err error) {
+	err = dao.User.Ctx(ctx).OmitEmpty().Where(data).Scan(&record)
 	return
 }
 
@@ -33,6 +33,20 @@ func (u *sUser) List(ctx context.Context, username, name string, page, size int)
 	}
 	if err := db.Limit((page-1)*size, size).ScanAndCount(&records, &total, false); err != nil {
 		return nil, 0, err
+	}
+	return
+}
+
+func (u *sUser) Edit(ctx context.Context, user entity.User) (err error) {
+	if _, err := dao.User.Ctx(ctx).Where(dao.User.Columns().Id, user.Id).Data(user).Update(); err != nil {
+		return err
+	}
+	return
+}
+
+func (u *sUser) Create(ctx context.Context, user entity.User) (err error) {
+	if _, err := dao.User.Ctx(ctx).OmitEmpty().Insert(user); err != nil {
+		return err
 	}
 	return
 }

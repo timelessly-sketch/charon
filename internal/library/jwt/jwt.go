@@ -1,6 +1,7 @@
 package jwt
 
 import (
+	"charon/internal/model/entity"
 	"fmt"
 	"github.com/golang-jwt/jwt/v5"
 	"time"
@@ -9,15 +10,13 @@ import (
 var jwtSecret = []byte("nnssxxhslssyybrt")
 
 type CustomClaims struct {
-	Id   int    `json:"id"`
-	Name string `json:"name"`
+	entity.User
 	jwt.RegisteredClaims
 }
 
-func GenerateJWT(id int, name string) (string, error) {
+func GenerateJWT(user entity.User) (string, error) {
 	claims := CustomClaims{
-		Id:   id,
-		Name: name,
+		User: user,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * 7 * time.Hour)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),

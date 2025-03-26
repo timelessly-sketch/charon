@@ -12,8 +12,10 @@ import (
 
 type (
 	IUser interface {
-		UserByUserName(ctx context.Context, nick string) (record entity.User, err error)
+		Select(ctx context.Context, data entity.User) (record entity.User, err error)
 		List(ctx context.Context, username string, name string, page int, size int) (records []entity.User, total int, err error)
+		Edit(ctx context.Context, user entity.User) (err error)
+		Create(ctx context.Context, user entity.User) (err error)
 	}
 )
 

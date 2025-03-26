@@ -6,6 +6,9 @@
 package service
 
 import (
+	"charon/internal/model/entity"
+	"context"
+
 	"github.com/gogf/gf/v2/net/ghttp"
 )
 
@@ -14,6 +17,7 @@ type (
 		AuthMiddleware(r *ghttp.Request)
 		// CORS 跨域
 		CORS(r *ghttp.Request)
+		GetCtxUser(ctx context.Context) (user *entity.User)
 	}
 )
 

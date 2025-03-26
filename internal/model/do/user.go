@@ -23,6 +23,7 @@ type User struct {
 	Phone      interface{} // 电话
 	Status     interface{} // 0-禁用, 1-正常
 	AvatarUrl  interface{} // 头像
+	Remark     interface{} // 备注
 	CreatedAt  *gtime.Time // 创建时间
 	UpdatedBy  interface{} // 更新人
 	UpdatedAt  *gtime.Time // 更新时间

@@ -32,6 +32,7 @@ type UserColumns struct {
 	Phone      string // 电话
 	Status     string // 0-禁用, 1-正常
 	AvatarUrl  string // 头像
+	Remark     string // 备注
 	CreatedAt  string // 创建时间
 	UpdatedBy  string // 更新人
 	UpdatedAt  string // 更新时间
@@ -51,6 +52,7 @@ var userColumns = UserColumns{
 	Phone:      "phone",
 	Status:     "status",
 	AvatarUrl:  "avatar_url",
+	Remark:     "remark",
 	CreatedAt:  "created_at",
 	UpdatedBy:  "updated_by",
 	UpdatedAt:  "updated_at",
