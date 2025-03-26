@@ -30,5 +30,4 @@ type UserAddReq struct {
 	entity.User
 }
 
-type UserAddRes struct {
-}
+type UserAddRes struct{}
