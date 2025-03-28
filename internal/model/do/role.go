@@ -15,8 +15,9 @@ type Role struct {
 	Id          interface{} // 自增id
 	Name        interface{} // 角色名称
 	Description interface{} // 描述
-	Status      interface{} // 0 - 禁止 1 - 启用
+	Remark      interface{} // 备注
 	CreatedAt   *gtime.Time // 创建时间
+	UpdatedBy   interface{} // 更新者
 	UpdatedAt   *gtime.Time // 更新时间
 	DeletedAt   *gtime.Time // 删除时间
 }

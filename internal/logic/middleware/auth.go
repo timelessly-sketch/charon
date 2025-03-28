@@ -6,7 +6,6 @@ import (
 	"charon/internal/model/entity"
 	"charon/internal/service"
 	"context"
-	"fmt"
 	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
@@ -45,8 +44,7 @@ func (m *sMiddleware) AuthMiddleware(r *ghttp.Request) {
 	}
 	r.SetCtxVar("user", claims.User)
 	auth := handler.GetMetaTag("role")
-	fmt.Println(auth)
-	if !gstr.Contains(auth, claims.RoleName) {
+	if !gstr.Contains(auth, claims.RoleName) && auth != "" {
 		r.Response.WriteStatusExit(http.StatusUnauthorized, gcode.CodeInvalidOperation)
 		return
 	}

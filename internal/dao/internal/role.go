@@ -24,8 +24,9 @@ type RoleColumns struct {
 	Id          string // 自增id
 	Name        string // 角色名称
 	Description string // 描述
-	Status      string // 0 - 禁止 1 - 启用
+	Remark      string // 备注
 	CreatedAt   string // 创建时间
+	UpdatedBy   string // 更新者
 	UpdatedAt   string // 更新时间
 	DeletedAt   string // 删除时间
 }
@@ -35,8 +36,9 @@ var roleColumns = RoleColumns{
 	Id:          "id",
 	Name:        "name",
 	Description: "description",
-	Status:      "status",
+	Remark:      "remark",
 	CreatedAt:   "created_at",
+	UpdatedBy:   "updated_by",
 	UpdatedAt:   "updated_at",
 	DeletedAt:   "deleted_at",
 }

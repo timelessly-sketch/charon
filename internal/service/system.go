@@ -13,6 +13,10 @@ import (
 type (
 	ISystem interface {
 		RoleList(ctx context.Context) (records []entity.Role, err error)
+		MenuList(ctx context.Context) (records []entity.Menu, err error)
+		MenuByName(ctx context.Context, name string) (record entity.Menu, err error)
+		MenuCreate(ctx context.Context, menu entity.Menu) (err error)
+		MenuEdit(ctx context.Context, menu entity.Menu) (err error)
 	}
 )
 

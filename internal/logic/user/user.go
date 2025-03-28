@@ -38,15 +38,11 @@ func (u *sUser) List(ctx context.Context, username, name string, page, size int)
 }
 
 func (u *sUser) Edit(ctx context.Context, user entity.User) (err error) {
-	if _, err := dao.User.Ctx(ctx).Where(dao.User.Columns().Id, user.Id).Data(user).Update(); err != nil {
-		return err
-	}
+	_, err = dao.User.Ctx(ctx).Where(dao.User.Columns().Id, user.Id).Data(user).Update()
 	return
 }
 
 func (u *sUser) Create(ctx context.Context, user entity.User) (err error) {
-	if _, err := dao.User.Ctx(ctx).OmitEmpty().Insert(user); err != nil {
-		return err
-	}
+	_, err = dao.User.Ctx(ctx).OmitEmpty().Insert(user)
 	return
 }

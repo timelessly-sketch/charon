@@ -11,4 +11,5 @@ var (
 	CodeUserExists      = gcode.New(1005, "user exists", nil)
 	CodeGenerateToken   = gcode.New(1006, "generate token failed", nil)
 	CodeTokenInvalid    = gcode.New(1007, "token invalid", nil)
+	CodeMenuExists      = gcode.New(1008, "menu exists", nil)
 )
