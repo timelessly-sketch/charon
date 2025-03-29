@@ -1,8 +1,8 @@
 package model
 
 type Token struct {
-	SecretKey  string `json:"SecretKey,omitempty"`
-	ExpiresAt  int64  `json:"ExpiresAt,omitempty"`
+	SecretKey  []byte `json:"SecretKey,omitempty"`
+	Expires    int64  `json:"Expires,omitempty"`
 	MultiLogin bool   `json:"MultiLogin,omitempty"`
 	Issuer     string `json:"Issuer,omitempty"`
 }

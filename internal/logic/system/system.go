@@ -32,12 +32,32 @@ func (sys *sSystem) MenuByName(ctx context.Context, name string) (record entity.
 	return
 }
 
-func (sys *sSystem) MenuCreate(ctx context.Context, menu entity.Menu) (err error) {
+func (sys *sSystem) MenuAdd(ctx context.Context, menu entity.Menu) (err error) {
 	_, err = dao.Menu.Ctx(ctx).OmitEmpty().Insert(&menu)
 	return
 }
 
 func (sys *sSystem) MenuEdit(ctx context.Context, menu entity.Menu) (err error) {
 	_, err = dao.Menu.Ctx(ctx).Where(dao.User.Columns().Id, menu.Id).Data(&menu).Update()
+	return
+}
+
+func (sys *sSystem) ApiList(ctx context.Context) (records []entity.Api, err error) {
+	err = dao.Api.Ctx(ctx).Scan(&records)
+	return
+}
+
+func (sys *sSystem) ApiEdit(ctx context.Context, api entity.Api) (err error) {
+	_, err = dao.Api.Ctx(ctx).Where(dao.Api.Columns().Id, api.Id).Data(&api).Update()
+	return
+}
+
+func (sys *sSystem) ApiAdd(ctx context.Context, api entity.Api) (err error) {
+	_, err = dao.Api.Ctx(ctx).OmitEmpty().Insert(&api)
+	return
+}
+
+func (sys *sSystem) ApiByName(ctx context.Context, name string) (api entity.Api, err error) {
+	err = dao.Api.Ctx(ctx).Where("name = ?", name).Scan(&api)
 	return
 }

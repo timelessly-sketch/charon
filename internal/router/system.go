@@ -8,6 +8,11 @@ import (
 
 func System(ctx context.Context, group *ghttp.RouterGroup) {
 	group.Group("/system", func(group *ghttp.RouterGroup) {
-		group.Bind(system.NewV1())
+		group.Bind(
+			system.Role,
+			system.User,
+			system.Menu,
+			system.Api,
+		)
 	})
 }

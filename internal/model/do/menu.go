@@ -26,7 +26,7 @@ type Menu struct {
 	Hide          interface{} // 是否隐藏菜单
 	ActiveMenu    interface{} // 激活显示的菜单路径
 	KeepAlive     interface{} // 是否缓存页面
-	WithoutTab    interface{} // 当前路由是否会被添加到Tab中
+	WithoutTab    interface{} // 当前路由不会被添加到Tab中
 	Href          interface{} // 外部链接地址
 	Order         interface{} // 菜单排序权重
 	Roles         *gjson.Json // 允许访问的角色列表

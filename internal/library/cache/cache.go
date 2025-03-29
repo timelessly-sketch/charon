@@ -29,4 +29,5 @@ func SetAdapter(ctx context.Context) {
 
 	cache = gcache.New()
 	cache.SetAdapter(adapter)
+	g.Log().Info(ctx, "cache initialized")
 }

@@ -1,4 +1,4 @@
-package v1
+package system
 
 import (
 	"charon/internal/model/entity"
@@ -7,7 +7,9 @@ import (
 
 type MenuListReq struct {
 	g.Meta `path:"/menuList" method:"get" summary:"获取菜单列表"`
+	Id     int `json:"Id"`
 }
+
 type MenuListRes struct {
 	Records []entity.Menu `json:"records"`
 }

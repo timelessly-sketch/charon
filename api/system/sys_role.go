@@ -1,4 +1,4 @@
-package v1
+package system
 
 import (
 	"charon/internal/model/entity"
@@ -6,7 +6,7 @@ import (
 )
 
 type RoleListReq struct {
-	g.Meta  `path:"/roleList" method:"get" summary:"获取全部角色" role:"admin,operator"`
+	g.Meta  `path:"/roleList" method:"get" summary:"获取全部角色"`
 	Current int `json:"current"`
 	Size    int `json:"size"`
 }

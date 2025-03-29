@@ -28,9 +28,8 @@ type CustomClaims struct {
 func GenerateJWT(ctx context.Context, user entity.User) (token string, err error) {
 	var (
 		now      = time.Now()
-		duration = time.Second * gconv.Duration(cfg.ExpiresAt)
+		duration = time.Second * gconv.Duration(cfg.Expires)
 	)
-
 	v, err := cache.Instance().Get(ctx, user.UserName+":Token")
 	if err != nil {
 		g.Log().Error(ctx, err)
@@ -49,13 +48,14 @@ func GenerateJWT(ctx context.Context, user entity.User) (token string, err error
 			Issuer:    cfg.Issuer,
 		},
 	}
-
 	token, err = jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString(cfg.SecretKey)
 	if err != nil {
 		g.Log().Error(ctx, err)
 		return "", gerror.NewCode(consts.CodeGenerateToken)
 	}
-	_ = cache.Instance().Set(ctx, user.UserName+":Token", token, duration)
+	if err := cache.Instance().Set(ctx, user.UserName+":Token", token, duration); err != nil {
+		return "", gerror.NewCode(consts.CodeRedisError)
+	}
 	return
 }
 

@@ -1,4 +1,4 @@
-package v1
+package system
 
 import (
 	"charon/internal/model/entity"
@@ -6,7 +6,7 @@ import (
 )
 
 type UserListReq struct {
-	g.Meta   `path:"/userPage" method:"get" summary:"用户设置" role:"admin,operator"`
+	g.Meta   `path:"/userList" method:"get" summary:"用户设置"`
 	Page     int    `json:"page" d:"1"`
 	Size     int    `json:"size" d:"10"`
 	UserName string `json:"username"`
@@ -19,14 +19,14 @@ type UserListRes struct {
 }
 
 type UserEditReq struct {
-	g.Meta `path:"/userEdit" method:"post" summary:"编辑用户" role:"admin,operator"`
+	g.Meta `path:"/userEdit" method:"post" summary:"编辑用户"`
 	entity.User
 }
 
 type UserEditRes struct{}
 
 type UserAddReq struct {
-	g.Meta `path:"/userAdd" method:"post" summary:"添加用户" role:"admin,operator"`
+	g.Meta `path:"/userAdd" method:"post" summary:"添加用户"`
 	entity.User
 }
 

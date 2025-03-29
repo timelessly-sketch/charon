@@ -34,7 +34,7 @@ type MenuColumns struct {
 	Hide          string // 是否隐藏菜单
 	ActiveMenu    string // 激活显示的菜单路径
 	KeepAlive     string // 是否缓存页面
-	WithoutTab    string // 当前路由是否会被添加到Tab中
+	WithoutTab    string // 当前路由不会被添加到Tab中
 	Href          string // 外部链接地址
 	Order         string // 菜单排序权重
 	Roles         string // 允许访问的角色列表

@@ -15,7 +15,6 @@ import (
 type (
 	IMiddleware interface {
 		AuthMiddleware(r *ghttp.Request)
-		// CORS 跨域
 		CORS(r *ghttp.Request)
 		GetCtxUser(ctx context.Context) (user *entity.User)
 	}
