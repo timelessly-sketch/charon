@@ -17,8 +17,10 @@ var (
 		Brief: "start http server",
 		Func: func(ctx context.Context, parser *gcmd.Parser) (err error) {
 			s := g.Server()
+			if err := service.Config().InitConfig(ctx); err != nil {
+				panic(err)
+			}
 
-			// 注册全局中间件
 			s.BindMiddleware("/*any", []ghttp.HandlerFunc{
 				service.Middleware().AuthMiddleware,
 				service.Middleware().CORS,

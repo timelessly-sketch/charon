@@ -18,11 +18,12 @@ func (c *ControllerV1) Login(ctx context.Context, req *v1.LoginReq) (res *v1.Log
 		g.Log().Warning(ctx, err)
 		return nil, gerror.NewCode(consts.CodeUserNotFound)
 	}
-	generateJWT, err := jwt.GenerateJWT(user)
+	generateJWT, err := jwt.GenerateJWT(ctx, user)
 	if err != nil {
 		g.Log().Warning(ctx, err)
-		return nil, gerror.NewCode(consts.CodeGenerateToken)
+		return nil, err
 	}
+
 	res = &v1.LoginRes{
 		Id:       user.Id,
 		Username: user.UserName,

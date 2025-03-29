@@ -23,7 +23,7 @@ func (sys *sSystem) RoleList(ctx context.Context) (records []entity.Role, err er
 }
 
 func (sys *sSystem) MenuList(ctx context.Context) (records []entity.Menu, err error) {
-	err = dao.Menu.Ctx(ctx).WhereNot(dao.Menu.Columns().Id, 0).Scan(&records)
+	err = dao.Menu.Ctx(ctx).Scan(&records)
 	return
 }
 

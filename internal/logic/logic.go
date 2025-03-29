@@ -5,6 +5,7 @@
 package logic
 
 import (
+	_ "charon/internal/logic/config"
 	_ "charon/internal/logic/middleware"
 	_ "charon/internal/logic/system"
 	_ "charon/internal/logic/user"
