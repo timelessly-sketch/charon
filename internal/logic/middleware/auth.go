@@ -31,8 +31,7 @@ func (m *sMiddleware) AuthMiddleware(r *ghttp.Request) {
 		method  = r.Method
 		path    = route + ":" + method
 	)
-
-	if method == "OPTIONS" {
+	if handler.GetMetaTag("noAuth") == "true" || method == "OPTIONS" {
 		r.Middleware.Next()
 		return
 	}
