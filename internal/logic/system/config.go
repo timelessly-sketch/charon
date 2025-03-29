@@ -1,6 +1,7 @@
-package config
+package system
 
 import (
+	"charon/internal/library/cache"
 	"charon/internal/library/jwt"
 	"charon/internal/model"
 	"charon/internal/service"
@@ -19,6 +20,7 @@ func init() {
 }
 
 func (s *sConfig) InitConfig(ctx context.Context) (err error) {
+	cache.SetAdapter(ctx)
 	return s.LoadConfig(ctx)
 }
 

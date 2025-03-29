@@ -45,7 +45,7 @@ func (m *sMiddleware) AuthMiddleware(r *ghttp.Request) {
 	r.SetCtxVar("user", claims.User)
 	auth := handler.GetMetaTag("role")
 	if !gstr.Contains(auth, claims.RoleName) && auth != "" {
-		r.Response.WriteStatusExit(http.StatusUnauthorized, gcode.CodeInvalidOperation)
+		r.Response.WriteStatusExit(http.StatusForbidden, gcode.CodeInvalidOperation)
 		return
 	}
 	r.Middleware.Next()
