@@ -2,9 +2,11 @@ package system
 
 import (
 	"charon/internal/dao"
+	"charon/internal/library/cache"
 	"charon/internal/model/entity"
 	"charon/internal/service"
 	"context"
+	"github.com/gogf/gf/v2/util/gconv"
 )
 
 type sSystem struct{}
@@ -24,6 +26,20 @@ func (sys *sSystem) RoleList(ctx context.Context) (records []entity.Role, err er
 
 func (sys *sSystem) MenuList(ctx context.Context) (records []entity.Menu, err error) {
 	err = dao.Menu.Ctx(ctx).Scan(&records)
+	return
+}
+
+func (sys *sSystem) MenuDynamic(ctx context.Context, id int) (records []entity.Menu, err error) {
+	var (
+		user entity.User
+	)
+	if err := dao.User.Ctx(ctx).Where(dao.User.Columns().Id, id).Scan(&user); err != nil {
+		return nil, err
+	}
+	value, err := cache.Instance().Get(ctx, user.RoleName+":Menu")
+	if err = gconv.Structs(value, &records); err != nil {
+		return nil, err
+	}
 	return
 }
 

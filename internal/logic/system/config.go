@@ -29,7 +29,10 @@ func (s *sConfig) InitConfig(ctx context.Context) (err error) {
 }
 
 func (s *sConfig) LoadConfig(ctx context.Context) (err error) {
-	if err := s.InitAuthPath(ctx); err != nil {
+	if err := s.LoadAuthPath(ctx); err != nil {
+		return err
+	}
+	if err := s.LoadAuthMenu(ctx); err != nil {
 		return err
 	}
 
@@ -42,7 +45,7 @@ func (s *sConfig) LoadConfig(ctx context.Context) (err error) {
 	return
 }
 
-func (s *sConfig) InitAuthPath(ctx context.Context) (err error) {
+func (s *sConfig) LoadAuthPath(ctx context.Context) (err error) {
 	var (
 		roleList = make([]*entity.Role, 0)
 		apiList  = make([]entity.Api, 0)
@@ -71,16 +74,57 @@ func (s *sConfig) InitAuthPath(ctx context.Context) (err error) {
 		key := role.Name + ":Role"
 		value, _ := cache.Instance().Get(ctx, key)
 		if value.IsEmpty() {
-			if err := cache.Instance().Set(ctx, role.Name+":Role", permMap, 0); err != nil {
+			if err := cache.Instance().Set(ctx, key, permMap, 0); err != nil {
 				return err
 			}
 			continue
 		}
-		if _, _, err := cache.Instance().Update(ctx, role.Name+":Role", permMap); err != nil {
+		if _, _, err := cache.Instance().Update(ctx, key, permMap); err != nil {
 			return err
 		}
 	}
 	return
+}
+
+func (s *sConfig) LoadAuthMenu(ctx context.Context) (err error) {
+	var (
+		roleList = make([]*entity.Role, 0)
+		menuList = make([]entity.Menu, 0)
+	)
+
+	if err := dao.Role.Ctx(ctx).Scan(&roleList); err != nil {
+		return err
+	}
+	if err := dao.Menu.Ctx(ctx).Scan(&menuList); err != nil {
+		return err
+	}
+
+	for _, role := range roleList {
+		records := make([]entity.Menu, 0)
+		for _, menu := range menuList {
+			if menu.Roles == nil {
+				records = append(records, menu)
+				continue
+			}
+			arrayFrom := garray.NewArrayFrom(gconv.SliceAny(menu.Roles), true)
+			if arrayFrom.Contains(role.Name) {
+				records = append(records, menu)
+			}
+		}
+		key := role.Name + ":Menu"
+		value, _ := cache.Instance().Get(ctx, key)
+		if value.IsEmpty() {
+			if err := cache.Instance().Set(ctx, key, records, 0); err != nil {
+				return err
+			}
+			continue
+		}
+		if _, _, err := cache.Instance().Update(ctx, key, records); err != nil {
+			return err
+		}
+	}
+
+	return err
 }
 
 func (s *sConfig) LoadToken(ctx context.Context) (cfg *model.Token, err error) {

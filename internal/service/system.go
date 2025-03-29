@@ -15,12 +15,14 @@ type (
 	IConfig interface {
 		InitConfig(ctx context.Context) (err error)
 		LoadConfig(ctx context.Context) (err error)
-		InitAuthPath(ctx context.Context) (err error)
+		LoadAuthPath(ctx context.Context) (err error)
+		LoadAuthMenu(ctx context.Context) (err error)
 		LoadToken(ctx context.Context) (cfg *model.Token, err error)
 	}
 	ISystem interface {
 		RoleList(ctx context.Context) (records []entity.Role, err error)
 		MenuList(ctx context.Context) (records []entity.Menu, err error)
+		MenuDynamic(ctx context.Context, id int) (records []entity.Menu, err error)
 		MenuByName(ctx context.Context, name string) (record entity.Menu, err error)
 		MenuAdd(ctx context.Context, menu entity.Menu) (err error)
 		MenuEdit(ctx context.Context, menu entity.Menu) (err error)

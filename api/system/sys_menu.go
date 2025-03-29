@@ -7,7 +7,7 @@ import (
 
 type MenuListReq struct {
 	g.Meta `path:"/menuList" method:"get" summary:"获取菜单列表"`
-	Id     int `json:"Id"`
+	Id     int `json:"Id" d:"0"`
 }
 
 type MenuListRes struct {

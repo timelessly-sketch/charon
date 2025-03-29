@@ -3,10 +3,10 @@ package system
 import (
 	"charon/api/system"
 	"charon/internal/consts"
+	"charon/internal/model/entity"
 	"charon/internal/service"
 	"context"
 	"database/sql"
-	"fmt"
 	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
@@ -19,12 +19,19 @@ var (
 type cMenu struct{}
 
 func (c *cMenu) List(ctx context.Context, req *system.MenuListReq) (res *system.MenuListRes, err error) {
-	fmt.Println(req)
-	records, err := service.System().MenuList(ctx)
+	getRecords := func() ([]entity.Menu, error) {
+		if req.Id == 0 {
+			return service.System().MenuList(ctx)
+		}
+		return service.System().MenuDynamic(ctx, req.Id)
+	}
+
+	records, err := getRecords()
 	if err != nil {
 		g.Log().Warning(ctx, err)
 		return nil, gerror.NewCode(gcode.CodeInternalError)
 	}
+
 	res = &system.MenuListRes{
 		Records: records,
 	}
