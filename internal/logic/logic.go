@@ -5,6 +5,7 @@
 package logic
 
 import (
+	_ "charon/internal/logic/cluster"
 	_ "charon/internal/logic/middleware"
 	_ "charon/internal/logic/system"
 )

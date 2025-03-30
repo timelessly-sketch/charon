@@ -30,7 +30,9 @@ var (
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
 				router.Auth(ctx, group)
 				router.System(ctx, group)
+				router.Service(ctx, group)
 			})
+
 			s.Run()
 			return nil
 		},

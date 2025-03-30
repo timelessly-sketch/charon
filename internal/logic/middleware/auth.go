@@ -26,13 +26,11 @@ func init() {
 func (m *sMiddleware) AuthMiddleware(r *ghttp.Request) {
 	var (
 		handler    = r.GetServeHandler()
-		route      = handler.Handler.Router.Uri
 		method     = r.Method
-		path       = route + ":" + method
 		apiNotAuth = g.Map{"code": http.StatusForbidden, "message": "api not auth"}
 	)
 
-	if handler.GetMetaTag("noAuth") == "true" || method == "OPTIONS" {
+	if handler.GetMetaTag("noAuth") == "true" || method == "OPTIONS" || handler == nil {
 		r.Middleware.Next()
 		return
 	}
@@ -49,7 +47,7 @@ func (m *sMiddleware) AuthMiddleware(r *ghttp.Request) {
 		return
 	}
 
-	key := cache.BuildRole(claims.RoleName)
+	path, key := consts.BuildPathMethod(handler.Handler.Router.Uri, method), cache.BuildRole(claims.RoleName)
 	value, _ := cache.Instance().Get(r.Context(), key)
 	if k, ok := value.Map()[path]; !gconv.Bool(k) || !ok {
 		r.Response.WriteStatusExit(http.StatusOK, apiNotAuth)

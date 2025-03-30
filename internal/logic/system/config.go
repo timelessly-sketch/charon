@@ -1,6 +1,7 @@
 package system
 
 import (
+	"charon/internal/consts"
 	"charon/internal/dao"
 	"charon/internal/library/cache"
 	"charon/internal/library/token"
@@ -62,7 +63,7 @@ func (s *sConfig) LoadAuthApiPath(ctx context.Context) (err error) {
 	for _, role := range roleList {
 		permMap := make(map[string]bool)
 		for _, api := range apiList {
-			path := api.Path + ":" + api.Method
+			path := consts.BuildPathMethod(api.Path, api.Method)
 			if api.Roles == nil {
 				permMap[path] = true
 				continue
