@@ -15,7 +15,7 @@ type (
 	IConfig interface {
 		InitConfig(ctx context.Context) (err error)
 		LoadConfig(ctx context.Context) (err error)
-		LoadAuthPath(ctx context.Context) (err error)
+		LoadAuthApiPath(ctx context.Context) (err error)
 		LoadAuthMenu(ctx context.Context) (err error)
 		LoadToken(ctx context.Context) (cfg *model.Token, err error)
 	}

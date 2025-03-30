@@ -1,4 +1,4 @@
-package jwt
+package token
 
 import (
 	"charon/internal/consts"
@@ -29,8 +29,9 @@ func GenerateJWT(ctx context.Context, user entity.User) (token string, err error
 	var (
 		now      = time.Now()
 		duration = time.Second * gconv.Duration(cfg.Expires)
+		key      = cache.BuildUserToken(user.UserName)
 	)
-	v, err := cache.Instance().Get(ctx, user.UserName+":Token")
+	v, err := cache.Instance().Get(ctx, key)
 	if err != nil {
 		g.Log().Error(ctx, err)
 		return "", gerror.NewCode(consts.CodeRedisError)
@@ -53,7 +54,7 @@ func GenerateJWT(ctx context.Context, user entity.User) (token string, err error
 		g.Log().Error(ctx, err)
 		return "", gerror.NewCode(consts.CodeGenerateToken)
 	}
-	if err := cache.Instance().Set(ctx, user.UserName+":Token", token, duration); err != nil {
+	if err := cache.Instance().Set(ctx, key, token, duration); err != nil {
 		return "", gerror.NewCode(consts.CodeRedisError)
 	}
 	return

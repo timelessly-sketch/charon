@@ -22,8 +22,8 @@ var (
 			}
 
 			s.BindMiddleware("/*any", []ghttp.HandlerFunc{
-				service.Middleware().AuthMiddleware,
 				service.Middleware().CORS,
+				service.Middleware().AuthMiddleware,
 			}...)
 
 			s.Group("/api", func(group *ghttp.RouterGroup) {

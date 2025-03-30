@@ -3,7 +3,7 @@ package system
 import (
 	"charon/internal/dao"
 	"charon/internal/library/cache"
-	"charon/internal/library/jwt"
+	"charon/internal/library/token"
 	"charon/internal/model"
 	"charon/internal/model/entity"
 	"charon/internal/service"
@@ -29,7 +29,7 @@ func (s *sConfig) InitConfig(ctx context.Context) (err error) {
 }
 
 func (s *sConfig) LoadConfig(ctx context.Context) (err error) {
-	if err := s.LoadAuthPath(ctx); err != nil {
+	if err := s.LoadAuthApiPath(ctx); err != nil {
 		return err
 	}
 	if err := s.LoadAuthMenu(ctx); err != nil {
@@ -41,11 +41,11 @@ func (s *sConfig) LoadConfig(ctx context.Context) (err error) {
 		return err
 	}
 
-	jwt.SetConfig(cfg)
+	token.SetConfig(cfg)
 	return
 }
 
-func (s *sConfig) LoadAuthPath(ctx context.Context) (err error) {
+func (s *sConfig) LoadAuthApiPath(ctx context.Context) (err error) {
 	var (
 		roleList = make([]*entity.Role, 0)
 		apiList  = make([]entity.Api, 0)
@@ -71,7 +71,7 @@ func (s *sConfig) LoadAuthPath(ctx context.Context) (err error) {
 			permMap[path] = arrayFrom.Contains(role.Name)
 		}
 
-		key := role.Name + ":Role"
+		key := cache.BuildRole(role.Name)
 		value, _ := cache.Instance().Get(ctx, key)
 		if value.IsEmpty() {
 			if err := cache.Instance().Set(ctx, key, permMap, 0); err != nil {
@@ -83,6 +83,7 @@ func (s *sConfig) LoadAuthPath(ctx context.Context) (err error) {
 			return err
 		}
 	}
+	g.Log().Info(ctx, "load auth path success")
 	return
 }
 
@@ -111,7 +112,8 @@ func (s *sConfig) LoadAuthMenu(ctx context.Context) (err error) {
 				records = append(records, menu)
 			}
 		}
-		key := role.Name + ":Menu"
+
+		key := cache.BuildMenu(role.Name)
 		value, _ := cache.Instance().Get(ctx, key)
 		if value.IsEmpty() {
 			if err := cache.Instance().Set(ctx, key, records, 0); err != nil {
@@ -123,7 +125,7 @@ func (s *sConfig) LoadAuthMenu(ctx context.Context) (err error) {
 			return err
 		}
 	}
-
+	g.Log().Info(ctx, "load auth menu success")
 	return err
 }
 

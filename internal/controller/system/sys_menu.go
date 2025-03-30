@@ -44,6 +44,8 @@ func (c *cMenu) Edit(ctx context.Context, req *system.MenuEditReq) (_ *system.Me
 		g.Log().Warning(ctx, err)
 		return nil, gerror.NewCode(gcode.CodeInternalError)
 	}
+
+	_ = service.Config().LoadAuthMenu(ctx)
 	return
 }
 
@@ -58,5 +60,7 @@ func (c *cMenu) Add(ctx context.Context, req *system.MenuAddReq) (res *system.Me
 		g.Log().Warning(ctx, err)
 		return nil, gerror.NewCode(gcode.CodeInvalidParameter)
 	}
+
+	_ = service.Config().LoadAuthMenu(ctx)
 	return
 }

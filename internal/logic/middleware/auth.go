@@ -3,11 +3,10 @@ package middleware
 import (
 	"charon/internal/consts"
 	"charon/internal/library/cache"
-	"charon/internal/library/jwt"
+	"charon/internal/library/token"
 	"charon/internal/model/entity"
 	"charon/internal/service"
 	"context"
-	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/util/gconv"
@@ -26,11 +25,13 @@ func init() {
 
 func (m *sMiddleware) AuthMiddleware(r *ghttp.Request) {
 	var (
-		handler = r.GetServeHandler()
-		route   = handler.Handler.Router.Uri
-		method  = r.Method
-		path    = route + ":" + method
+		handler    = r.GetServeHandler()
+		route      = handler.Handler.Router.Uri
+		method     = r.Method
+		path       = route + ":" + method
+		apiNotAuth = g.Map{"code": http.StatusForbidden, "message": "api not auth"}
 	)
+
 	if handler.GetMetaTag("noAuth") == "true" || method == "OPTIONS" {
 		r.Middleware.Next()
 		return
@@ -42,15 +43,16 @@ func (m *sMiddleware) AuthMiddleware(r *ghttp.Request) {
 		return
 	}
 	tokenString := authHeader[len("Bearer "):]
-	claims, err := jwt.ValidateJWT(tokenString)
+	claims, err := token.ValidateJWT(tokenString)
 	if err != nil {
 		r.Response.WriteStatusExit(http.StatusUnauthorized, consts.CodeTokenInvalid)
 		return
 	}
 
-	value, _ := cache.Instance().Get(r.Context(), claims.RoleName+":Role")
+	key := cache.BuildRole(claims.RoleName)
+	value, _ := cache.Instance().Get(r.Context(), key)
 	if k, ok := value.Map()[path]; !gconv.Bool(k) || !ok {
-		r.Response.WriteStatusExit(http.StatusUnauthorized, gcode.CodeNotAuthorized)
+		r.Response.WriteStatusExit(http.StatusOK, apiNotAuth)
 		return
 	}
 

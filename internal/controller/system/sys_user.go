@@ -7,6 +7,7 @@ import (
 	"charon/internal/service"
 	"context"
 	"database/sql"
+	"fmt"
 	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
@@ -36,6 +37,7 @@ func (c *cUser) Edit(ctx context.Context, req *system.UserEditReq) (res *system.
 		g.Log().Warning(ctx, err)
 		return nil, gerror.NewCode(gcode.CodeInternalError)
 	}
+	fmt.Println(service.Middleware().GetCtxUser(ctx), "----")
 	return
 }
 

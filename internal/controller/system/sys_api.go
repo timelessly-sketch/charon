@@ -34,6 +34,8 @@ func (c *cApi) Edit(ctx context.Context, req *system.ApiEditReq) (_ *system.ApiL
 	if err := service.System().ApiEdit(ctx, req.Api); err != nil {
 		return nil, gerror.NewCode(gcode.CodeInternalError)
 	}
+
+	_ = service.Config().LoadAuthApiPath(ctx)
 	return
 }
 
@@ -48,5 +50,7 @@ func (c *cApi) Add(ctx context.Context, req *system.ApiAddReq) (_ *system.ApiLis
 		g.Log().Warning(ctx, err)
 		return nil, gerror.NewCode(gcode.CodeInternalError)
 	}
+
+	_ = service.Config().LoadAuthApiPath(ctx)
 	return
 }
