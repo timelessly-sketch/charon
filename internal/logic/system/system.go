@@ -36,7 +36,8 @@ func (sys *sSystem) MenuDynamic(ctx context.Context, id int) (records []entity.M
 	if err := dao.User.Ctx(ctx).Where(dao.User.Columns().Id, id).Scan(&user); err != nil {
 		return nil, err
 	}
-	value, err := cache.Instance().Get(ctx, user.RoleName+":Menu")
+
+	value, err := cache.Instance().Get(ctx, cache.BuildMenu(user.RoleName))
 	if err = gconv.Structs(value, &records); err != nil {
 		return nil, err
 	}
@@ -75,5 +76,40 @@ func (sys *sSystem) ApiAdd(ctx context.Context, api entity.Api) (err error) {
 
 func (sys *sSystem) ApiByName(ctx context.Context, name string) (api entity.Api, err error) {
 	err = dao.Api.Ctx(ctx).Where("name = ?", name).Scan(&api)
+	return
+}
+
+func (sys *sSystem) UserSelect(ctx context.Context, data entity.User) (record entity.User, err error) {
+	err = dao.User.Ctx(ctx).OmitEmpty().Where(data).Scan(&record)
+	return
+}
+
+func (sys *sSystem) UserList(ctx context.Context, username, name string, page, size int) (records []entity.User, total int, err error) {
+	records = make([]entity.User, 0)
+	db := dao.User.Ctx(ctx)
+	if username != "" {
+		db = db.WhereLike(dao.User.Columns().UserName, "%"+username+"%")
+	}
+	if name != "" {
+		db = db.WhereLike(dao.User.Columns().Name, "%"+name+"%")
+	}
+	if err := db.Limit((page-1)*size, size).ScanAndCount(&records, &total, false); err != nil {
+		return nil, 0, err
+	}
+	return
+}
+
+func (sys *sSystem) UserEdit(ctx context.Context, user entity.User) (err error) {
+	_, err = dao.User.Ctx(ctx).Where(dao.User.Columns().Id, user.Id).Data(user).Update()
+	return
+}
+
+func (sys *sSystem) UserAdd(ctx context.Context, user entity.User) (err error) {
+	_, err = dao.User.Ctx(ctx).OmitEmpty().Insert(user)
+	return
+}
+
+func (sys *sSystem) UserUpdate(ctx context.Context, user entity.User) (err error) {
+	_, err = dao.User.Ctx(ctx).Where(dao.User.Columns().Id, user.Id).Data(user).Update()
 	return
 }

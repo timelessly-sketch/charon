@@ -30,6 +30,11 @@ type (
 		ApiEdit(ctx context.Context, api entity.Api) (err error)
 		ApiAdd(ctx context.Context, api entity.Api) (err error)
 		ApiByName(ctx context.Context, name string) (api entity.Api, err error)
+		UserSelect(ctx context.Context, data entity.User) (record entity.User, err error)
+		UserList(ctx context.Context, username string, name string, page int, size int) (records []entity.User, total int, err error)
+		UserEdit(ctx context.Context, user entity.User) (err error)
+		UserAdd(ctx context.Context, user entity.User) (err error)
+		UserUpdate(ctx context.Context, user entity.User) (err error)
 	}
 )
 

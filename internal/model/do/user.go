@@ -15,6 +15,7 @@ type User struct {
 	Id         interface{} // 自增ID
 	NickName   interface{} // 昵称
 	UserName   interface{} // 英文名
+	Password   interface{} // 密码
 	Name       interface{} // 中文名
 	Department interface{} // 部门
 	UserId     interface{} // 用户Id

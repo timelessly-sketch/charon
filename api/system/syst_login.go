@@ -23,3 +23,10 @@ type LogoutReq struct {
 }
 
 type LogoutRes struct{}
+
+type RestPasswordReq struct {
+	g.Meta `path:"/resetPass" method:"post" summary:"重置密码"`
+	Id     int `json:"id"`
+}
+
+type RestPasswordRes struct{}

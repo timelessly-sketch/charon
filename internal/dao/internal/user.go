@@ -24,6 +24,7 @@ type UserColumns struct {
 	Id         string // 自增ID
 	NickName   string // 昵称
 	UserName   string // 英文名
+	Password   string // 密码
 	Name       string // 中文名
 	Department string // 部门
 	UserId     string // 用户Id
@@ -44,6 +45,7 @@ var userColumns = UserColumns{
 	Id:         "id",
 	NickName:   "nick_name",
 	UserName:   "user_name",
+	Password:   "password",
 	Name:       "name",
 	Department: "department",
 	UserId:     "user_id",

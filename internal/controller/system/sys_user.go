@@ -18,7 +18,7 @@ var (
 type cUser struct{}
 
 func (c *cUser) List(ctx context.Context, req *system.UserListReq) (res *system.UserListRes, err error) {
-	records, total, err := service.User().List(ctx, req.UserName, req.Name, req.Page, req.Size)
+	records, total, err := service.System().UserList(ctx, req.UserName, req.Name, req.Page, req.Size)
 	if err != nil {
 		return nil, gerror.NewCode(consts.CodeDbOperationError)
 	}
@@ -31,7 +31,7 @@ func (c *cUser) List(ctx context.Context, req *system.UserListReq) (res *system.
 
 func (c *cUser) Edit(ctx context.Context, req *system.UserEditReq) (res *system.UserEditRes, err error) {
 	req.UpdatedBy = service.Middleware().GetCtxUser(ctx).UserName
-	if err := service.User().Edit(ctx, req.User); err != nil {
+	if err := service.System().UserEdit(ctx, req.User); err != nil {
 		g.Log().Warning(ctx, err)
 		return nil, gerror.NewCode(consts.CodeDbOperationError)
 	}
@@ -39,12 +39,12 @@ func (c *cUser) Edit(ctx context.Context, req *system.UserEditReq) (res *system.
 }
 
 func (c *cUser) Add(ctx context.Context, req *system.UserAddReq) (res *system.UserAddRes, err error) {
-	if _, err := service.User().Select(ctx, entity.User{UserName: req.UserName}); !gerror.Is(err, sql.ErrNoRows) {
+	if _, err := service.System().UserSelect(ctx, entity.User{UserName: req.UserName}); !gerror.Is(err, sql.ErrNoRows) {
 		g.Log().Warning(ctx, err)
 		return nil, gerror.NewCode(consts.CodeUserExists)
 	}
 	req.UpdatedBy = service.Middleware().GetCtxUser(ctx).UserName
-	if err := service.User().Create(ctx, req.User); err != nil {
+	if err := service.System().UserAdd(ctx, req.User); err != nil {
 		g.Log().Warning(ctx, err)
 		return nil, gerror.NewCode(consts.CodeDbOperationError)
 	}

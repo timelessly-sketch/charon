@@ -27,7 +27,7 @@ type ApiColumns struct {
 	Icon      string // 图标
 	Title     string // 标题
 	Path      string // 接口路径
-	Method    string // 接口方法
+	Method    string // 接口方法-目录为空,接口不能为空
 	ApiType   string // 接口或者目录
 	Roles     string // 权限列表
 	CreatedAt string // 创建时间
