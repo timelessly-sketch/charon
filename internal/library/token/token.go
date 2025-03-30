@@ -34,7 +34,7 @@ func GenerateJWT(ctx context.Context, user entity.User) (token string, err error
 	v, err := cache.Instance().Get(ctx, key)
 	if err != nil {
 		g.Log().Error(ctx, err)
-		return "", gerror.NewCode(consts.CodeRedisError)
+		return "", gerror.NewCode(consts.CodeRedisOperationError)
 	}
 	if !v.IsEmpty() && !cfg.MultiLogin {
 		return "", gerror.NewCode(consts.CodeUserNotMultiLogin)
@@ -52,10 +52,10 @@ func GenerateJWT(ctx context.Context, user entity.User) (token string, err error
 	token, err = jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString(cfg.SecretKey)
 	if err != nil {
 		g.Log().Error(ctx, err)
-		return "", gerror.NewCode(consts.CodeGenerateToken)
+		return "", gerror.NewCode(consts.CodeGenerateTokenError)
 	}
 	if err := cache.Instance().Set(ctx, key, token, duration); err != nil {
-		return "", gerror.NewCode(consts.CodeRedisError)
+		return "", gerror.NewCode(consts.CodeRedisOperationError)
 	}
 	return
 }

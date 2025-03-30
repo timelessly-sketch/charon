@@ -7,8 +7,6 @@ import (
 	"charon/internal/service"
 	"context"
 	"database/sql"
-	"fmt"
-	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 )
@@ -22,7 +20,7 @@ type cUser struct{}
 func (c *cUser) List(ctx context.Context, req *system.UserListReq) (res *system.UserListRes, err error) {
 	records, total, err := service.User().List(ctx, req.UserName, req.Name, req.Page, req.Size)
 	if err != nil {
-		return nil, gerror.NewCode(gcode.CodeInternalError)
+		return nil, gerror.NewCode(consts.CodeDbOperationError)
 	}
 	res = &system.UserListRes{
 		Records: records,
@@ -35,9 +33,8 @@ func (c *cUser) Edit(ctx context.Context, req *system.UserEditReq) (res *system.
 	req.UpdatedBy = service.Middleware().GetCtxUser(ctx).UserName
 	if err := service.User().Edit(ctx, req.User); err != nil {
 		g.Log().Warning(ctx, err)
-		return nil, gerror.NewCode(gcode.CodeInternalError)
+		return nil, gerror.NewCode(consts.CodeDbOperationError)
 	}
-	fmt.Println(service.Middleware().GetCtxUser(ctx), "----")
 	return
 }
 
@@ -49,7 +46,7 @@ func (c *cUser) Add(ctx context.Context, req *system.UserAddReq) (res *system.Us
 	req.UpdatedBy = service.Middleware().GetCtxUser(ctx).UserName
 	if err := service.User().Create(ctx, req.User); err != nil {
 		g.Log().Warning(ctx, err)
-		return nil, gerror.NewCode(gcode.CodeInvalidParameter)
+		return nil, gerror.NewCode(consts.CodeDbOperationError)
 	}
 	return
 }

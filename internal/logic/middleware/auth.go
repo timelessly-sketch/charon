@@ -39,13 +39,13 @@ func (m *sMiddleware) AuthMiddleware(r *ghttp.Request) {
 
 	authHeader := r.Header.Get("Authorization")
 	if authHeader == "" {
-		r.Response.WriteStatusExit(http.StatusUnauthorized, consts.CodeTokenMiss)
+		r.Response.WriteStatusExit(http.StatusUnauthorized, consts.CodeTokenMissError)
 		return
 	}
 	tokenString := authHeader[len("Bearer "):]
 	claims, err := token.ValidateJWT(tokenString)
 	if err != nil {
-		r.Response.WriteStatusExit(http.StatusUnauthorized, consts.CodeTokenInvalid)
+		r.Response.WriteStatusExit(http.StatusUnauthorized, consts.CodeTokenInvalidError)
 		return
 	}
 

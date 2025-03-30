@@ -7,7 +7,6 @@ import (
 	"charon/internal/service"
 	"context"
 	"database/sql"
-	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 )
@@ -29,7 +28,7 @@ func (c *cMenu) List(ctx context.Context, req *system.MenuListReq) (res *system.
 	records, err := getRecords()
 	if err != nil {
 		g.Log().Warning(ctx, err)
-		return nil, gerror.NewCode(gcode.CodeInternalError)
+		return nil, gerror.NewCode(consts.CodeDbOperationError)
 	}
 
 	res = &system.MenuListRes{
@@ -42,7 +41,7 @@ func (c *cMenu) Edit(ctx context.Context, req *system.MenuEditReq) (_ *system.Me
 	req.UpdatedBy = service.Middleware().GetCtxUser(ctx).UserName
 	if err := service.System().MenuEdit(ctx, req.Menu); err != nil {
 		g.Log().Warning(ctx, err)
-		return nil, gerror.NewCode(gcode.CodeInternalError)
+		return nil, gerror.NewCode(consts.CodeDbOperationError)
 	}
 
 	_ = service.Config().LoadAuthMenu(ctx)
@@ -58,7 +57,7 @@ func (c *cMenu) Add(ctx context.Context, req *system.MenuAddReq) (res *system.Me
 	req.UpdatedBy = service.Middleware().GetCtxUser(ctx).UserName
 	if err := service.System().MenuAdd(ctx, req.Menu); err != nil {
 		g.Log().Warning(ctx, err)
-		return nil, gerror.NewCode(gcode.CodeInvalidParameter)
+		return nil, gerror.NewCode(consts.CodeDbOperationError)
 	}
 
 	_ = service.Config().LoadAuthMenu(ctx)

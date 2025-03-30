@@ -6,7 +6,6 @@ import (
 	"charon/internal/service"
 	"context"
 	"database/sql"
-	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 )
@@ -21,7 +20,7 @@ func (c *cApi) List(ctx context.Context, _ *system.ApiListReq) (res *system.ApiL
 	records, err := service.System().ApiList(ctx)
 	if err != nil {
 		g.Log().Warning(ctx, err)
-		return nil, gerror.NewCode(gcode.CodeInternalError)
+		return nil, gerror.NewCode(consts.CodeDbOperationError)
 	}
 	res = &system.ApiListRes{
 		Records: records,
@@ -32,9 +31,8 @@ func (c *cApi) List(ctx context.Context, _ *system.ApiListReq) (res *system.ApiL
 func (c *cApi) Edit(ctx context.Context, req *system.ApiEditReq) (_ *system.ApiListRes, err error) {
 	req.UpdatedBy = service.Middleware().GetCtxUser(ctx).UserName
 	if err := service.System().ApiEdit(ctx, req.Api); err != nil {
-		return nil, gerror.NewCode(gcode.CodeInternalError)
+		return nil, gerror.NewCode(consts.CodeDbOperationError)
 	}
-
 	_ = service.Config().LoadAuthApiPath(ctx)
 	return
 }
@@ -48,7 +46,7 @@ func (c *cApi) Add(ctx context.Context, req *system.ApiAddReq) (_ *system.ApiLis
 	req.UpdatedBy = service.Middleware().GetCtxUser(ctx).UserName
 	if err := service.System().ApiAdd(ctx, req.Api); err != nil {
 		g.Log().Warning(ctx, err)
-		return nil, gerror.NewCode(gcode.CodeInternalError)
+		return nil, gerror.NewCode(consts.CodeDbOperationError)
 	}
 
 	_ = service.Config().LoadAuthApiPath(ctx)

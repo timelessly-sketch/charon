@@ -8,7 +8,6 @@ import (
 	"charon/internal/model/entity"
 	"charon/internal/service"
 	"context"
-	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 )
@@ -28,7 +27,7 @@ func (s *sLogin) Login(ctx context.Context, req *system.LoginReq) (res *system.L
 	generateJWT, err := token.GenerateJWT(ctx, user)
 	if err != nil {
 		g.Log().Warning(ctx, err)
-		return nil, err
+		return nil, gerror.NewCode(consts.CodeGenerateTokenError)
 	}
 
 	res = &system.LoginRes{
@@ -47,7 +46,7 @@ func (s *sLogin) Logout(ctx context.Context, _ *system.LogoutReq) (_ *system.Log
 	key := cache.BuildUserToken(userInfo.UserName)
 	if _, err := cache.Instance().Remove(ctx, key); err != nil {
 		g.Log().Warning(ctx, err)
-		return nil, gerror.NewCode(gcode.CodeInternalError)
+		return nil, gerror.NewCode(consts.CodeCleanupTokenError)
 	}
 	return
 }
