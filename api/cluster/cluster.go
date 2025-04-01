@@ -15,3 +15,9 @@ type ListRes struct {
 	Records []entity.Cluster `json:"records"`
 	Total   int              `json:"total"`
 }
+
+type EditReq struct {
+	g.Meta `path:"/clusterEdit" method:"post" summary:"编辑集群信息"`
+	entity.Cluster
+}
+type EditRes struct{}

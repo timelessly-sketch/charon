@@ -27,3 +27,12 @@ func (c *cCluster) List(ctx context.Context, req *cluster.ListReq) (res *cluster
 	}
 	return
 }
+
+func (c *cCluster) Edit(ctx context.Context, req *cluster.EditReq) (res *cluster.EditRes, err error) {
+	req.UpdatedBy = service.Middleware().GetCtxUser(ctx).UserName
+	if err = service.Cluster().Edit(ctx, req.Cluster); err != nil {
+		g.Log().Warning(ctx, err)
+		return nil, gerror.NewCode(consts.CodeDbOperationError)
+	}
+	return
+}

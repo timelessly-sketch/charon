@@ -28,7 +28,7 @@ type ClusterColumns struct {
 	Environment string // 所属环境
 	Region      string // 物理区域/地理位置
 	Status      string // 集群状态 1-正常 2-异常
-	AutoMated   string // 1 - 自动发布 2 - 手动发布
+	AutoMated   string // 1 - 自动发布 2 - 手动发布 3 - 关闭发布
 	Remark      string // 备注信息
 	CreatedAt   string // 创建时间
 	UpdatedAt   string // 更新时间

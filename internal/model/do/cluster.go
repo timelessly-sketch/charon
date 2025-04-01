@@ -19,7 +19,7 @@ type Cluster struct {
 	Environment interface{} // 所属环境
 	Region      interface{} // 物理区域/地理位置
 	Status      interface{} // 集群状态 1-正常 2-异常
-	AutoMated   interface{} // 1 - 自动发布 2 - 手动发布
+	AutoMated   interface{} // 1 - 自动发布 2 - 手动发布 3 - 关闭发布
 	Remark      interface{} // 备注信息
 	CreatedAt   *gtime.Time // 创建时间
 	UpdatedAt   *gtime.Time // 更新时间

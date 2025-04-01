@@ -13,6 +13,7 @@ import (
 type (
 	ICluster interface {
 		List(ctx context.Context, page int, size int) (records []entity.Cluster, total int, err error)
+		Edit(ctx context.Context, cluster entity.Cluster) (err error)
 	}
 )
 
