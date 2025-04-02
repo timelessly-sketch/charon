@@ -1,16 +1,16 @@
 package system
 
 import (
+	"charon/internal/model"
 	"charon/internal/model/entity"
 	"github.com/gogf/gf/v2/frame/g"
 )
 
 type UserListReq struct {
 	g.Meta   `path:"/userList" method:"get" summary:"用户设置"`
-	Page     int    `json:"page" d:"1"`
-	Size     int    `json:"size" d:"10"`
 	UserName string `json:"username"`
 	Name     string `json:"name"`
+	model.Pagination
 }
 
 type UserListRes struct {
