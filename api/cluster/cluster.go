@@ -21,3 +21,10 @@ type EditReq struct {
 	entity.Cluster
 }
 type EditRes struct{}
+
+type TestReq struct {
+	g.Meta `path:"/clusterTest" method:"post" summary:"测试集群是否正常"`
+	Id     int `json:"id"`
+}
+
+type TestRes struct{}

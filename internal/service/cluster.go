@@ -18,6 +18,7 @@ type (
 		Edit(ctx context.Context, cluster entity.Cluster) (err error)
 		// VerifyUnique 验证集群唯一属性
 		VerifyUnique(ctx context.Context, in *public.VerifyUnique) (err error)
+		TestCusterReady(ctx context.Context, id int) (err error)
 	}
 )
 

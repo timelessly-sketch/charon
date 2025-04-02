@@ -1,8 +1,10 @@
 package cluster
 
 import (
+	"charon/internal/consts"
 	"charon/internal/dao"
 	"charon/internal/library/chorm"
+	"charon/internal/library/k8s"
 	"charon/internal/model/entity"
 	"charon/internal/model/public"
 	"charon/internal/service"
@@ -75,5 +77,27 @@ func (s *sCluster) VerifyUnique(ctx context.Context, in *public.VerifyUnique) (e
 			return
 		}
 	}
+	return
+}
+
+func (s *sCluster) TestCusterReady(ctx context.Context, id int) (err error) {
+	var cluster entity.Cluster
+	if err = dao.Cluster.Ctx(ctx).WherePri(id).Scan(&cluster); err != nil {
+		return gerror.NewCode(consts.CodeClusterNotFound)
+	}
+
+	client, err := k8s.NewKubernetesClient(cluster.ApiServer, cluster.AuthConfig)
+	if err != nil {
+		g.Log().Warning(ctx, err)
+		return gerror.NewCode(consts.CodeClusterInitError)
+	}
+	if _, err = client.Deployment(ctx, "default"); err != nil {
+		g.Log().Warning(ctx, err)
+		_, _ = dao.Cluster.Ctx(ctx).WherePri(id).Data(g.Map{dao.Cluster.Columns().Status: "2"}).Update()
+		return gerror.NewCode(consts.CodeClusterInitError)
+	}
+	g.Log().Infof(ctx, "%s集群测试成功", cluster.Environment)
+
+	_, err = dao.Cluster.Ctx(ctx).WherePri(id).Data(g.Map{dao.Cluster.Columns().Status: "1"}).Update()
 	return
 }

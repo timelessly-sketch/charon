@@ -36,3 +36,8 @@ func (c *cCluster) Edit(ctx context.Context, req *cluster.EditReq) (res *cluster
 	}
 	return
 }
+
+func (c *cCluster) TestCluster(ctx context.Context, req *cluster.TestReq) (res *cluster.TestRes, err error) {
+	err = service.Cluster().TestCusterReady(ctx, req.Id)
+	return
+}

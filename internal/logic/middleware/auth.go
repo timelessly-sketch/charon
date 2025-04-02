@@ -27,7 +27,7 @@ func (m *sMiddleware) AuthMiddleware(r *ghttp.Request) {
 	var (
 		handler    = r.GetServeHandler()
 		method     = r.Method
-		apiNotAuth = g.Map{"code": http.StatusForbidden, "message": "api not auth"}
+		apiNotAuth = g.Map{"code": http.StatusForbidden, "message": "接口未授权"}
 	)
 
 	if handler.GetMetaTag("noAuth") == "true" || method == "OPTIONS" || handler == nil {

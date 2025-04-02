@@ -24,11 +24,13 @@ func (sys *sSysApi) List(ctx context.Context) (records []entity.Api, err error) 
 
 func (sys *sSysApi) Edit(ctx context.Context, api entity.Api) (err error) {
 	if api.Id == 0 {
-		_, err = dao.Api.Ctx(ctx).Insert(&api)
-		return
-	}
-	if _, err = dao.Api.Ctx(ctx).WherePri(api.Id).Data(&api).Update(); err != nil {
-		return err
+		if _, err = dao.Api.Ctx(ctx).Insert(&api); err != nil {
+			return err
+		}
+	} else {
+		if _, err = dao.Api.Ctx(ctx).WherePri(api.Id).Data(&api).Update(); err != nil {
+			return err
+		}
 	}
 	_ = service.Config().LoadAuthApiPath(ctx)
 	return

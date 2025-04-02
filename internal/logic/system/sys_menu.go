@@ -51,7 +51,10 @@ func (sys *sSysMenu) MenuEdit(ctx context.Context, menu *entity.Menu) (err error
 		if _, err = dao.Menu.Ctx(ctx).WherePri(menu.Id).Data(&menu).Update(); err != nil {
 			return err
 		}
-		return
+	} else {
+		if _, err = dao.Menu.Ctx(ctx).Insert(&menu); err != nil {
+			return err
+		}
 	}
 	_, err = dao.Menu.Ctx(ctx).Insert(&menu)
 	return
