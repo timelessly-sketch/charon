@@ -16,7 +16,7 @@ var (
 type cRole struct{}
 
 func (c *cRole) List(ctx context.Context, _ *system.RoleListReq) (res *system.RoleListRes, err error) {
-	records, err := service.System().RoleList(ctx)
+	records, err := service.SysMenu().RoleList(ctx)
 	if err != nil {
 		g.Log().Warning(ctx, gerror.NewCode(consts.CodeDbOperationError))
 		return

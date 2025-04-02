@@ -1,4 +1,4 @@
-package model
+package public
 
 import "github.com/gogf/gf/v2/frame/g"
 

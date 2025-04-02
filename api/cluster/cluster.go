@@ -1,14 +1,14 @@
 package cluster
 
 import (
-	"charon/internal/model"
 	"charon/internal/model/entity"
+	"charon/internal/model/public"
 	"github.com/gogf/gf/v2/frame/g"
 )
 
 type ListReq struct {
 	g.Meta `path:"/clusterList" method:"get" summary:"获取集群列表"`
-	model.Pagination
+	public.Pagination
 }
 
 type ListRes struct {

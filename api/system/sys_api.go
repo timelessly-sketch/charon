@@ -17,9 +17,3 @@ type ApiEditReq struct {
 	entity.Api
 }
 type ApiEditRes struct{}
-
-type ApiAddReq struct {
-	g.Meta `path:"/apiAdd" method:"post" summary:"新增api接口"`
-	entity.Api
-}
-type ApiAddRes struct{}

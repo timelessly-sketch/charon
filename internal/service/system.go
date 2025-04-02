@@ -6,8 +6,8 @@
 package service
 
 import (
-	"charon/internal/model"
 	"charon/internal/model/entity"
+	"charon/internal/model/public"
 	"context"
 )
 
@@ -17,30 +17,34 @@ type (
 		LoadConfig(ctx context.Context) (err error)
 		LoadAuthApiPath(ctx context.Context) (err error)
 		LoadAuthMenu(ctx context.Context) (err error)
-		LoadToken(ctx context.Context) (cfg *model.Token, err error)
+		LoadToken(ctx context.Context) (cfg *public.Token, err error)
 	}
-	ISystem interface {
+	ISysApi interface {
+		List(ctx context.Context) (records []entity.Api, err error)
+		Edit(ctx context.Context, api entity.Api) (err error)
+	}
+	ISysMenu interface {
 		RoleList(ctx context.Context) (records []entity.Role, err error)
-		MenuList(ctx context.Context) (records []entity.Menu, err error)
-		MenuDynamic(ctx context.Context, id int) (records []entity.Menu, err error)
-		MenuByName(ctx context.Context, name string) (record entity.Menu, err error)
-		MenuAdd(ctx context.Context, menu entity.Menu) (err error)
-		MenuEdit(ctx context.Context, menu entity.Menu) (err error)
-		ApiList(ctx context.Context) (records []entity.Api, err error)
-		ApiEdit(ctx context.Context, api entity.Api) (err error)
-		ApiAdd(ctx context.Context, api entity.Api) (err error)
-		ApiByName(ctx context.Context, name string) (api entity.Api, err error)
-		UserSelect(ctx context.Context, data entity.User) (record entity.User, err error)
-		UserList(ctx context.Context, username string, name string, page int, size int) (records []entity.User, total int, err error)
-		UserEdit(ctx context.Context, user entity.User) (err error)
-		UserAdd(ctx context.Context, user entity.User) (err error)
-		UserUpdate(ctx context.Context, user entity.User) (err error)
+		MenuList(ctx context.Context, id int) (records []entity.Menu, err error)
+		MenuEdit(ctx context.Context, menu *entity.Menu) (err error)
+	}
+	ISysUser interface {
+		// List 获取用户列表
+		List(ctx context.Context, username string, name string, page int, size int) (records []entity.User, total int, err error)
+		// Edit 编辑或新增用户
+		Edit(ctx context.Context, user *entity.User) (err error)
+		ResetPassword(ctx context.Context, id int) (err error)
+		Login(ctx context.Context, input public.LoginInput) (info public.LoginInfo, err error)
+		// VerifyUnique 验证用户唯一属性
+		VerifyUnique(ctx context.Context, in *public.VerifyUnique) (err error)
 	}
 )
 
 var (
-	localConfig IConfig
-	localSystem ISystem
+	localConfig  IConfig
+	localSysApi  ISysApi
+	localSysMenu ISysMenu
+	localSysUser ISysUser
 )
 
 func Config() IConfig {
@@ -54,13 +58,35 @@ func RegisterConfig(i IConfig) {
 	localConfig = i
 }
 
-func System() ISystem {
-	if localSystem == nil {
-		panic("implement not found for interface ISystem, forgot register?")
+func SysApi() ISysApi {
+	if localSysApi == nil {
+		panic("implement not found for interface ISysApi, forgot register?")
 	}
-	return localSystem
+	return localSysApi
 }
 
-func RegisterSystem(i ISystem) {
-	localSystem = i
+func RegisterSysApi(i ISysApi) {
+	localSysApi = i
+}
+
+func SysMenu() ISysMenu {
+	if localSysMenu == nil {
+		panic("implement not found for interface ISysMenu, forgot register?")
+	}
+	return localSysMenu
+}
+
+func RegisterSysMenu(i ISysMenu) {
+	localSysMenu = i
+}
+
+func SysUser() ISysUser {
+	if localSysUser == nil {
+		panic("implement not found for interface ISysUser, forgot register?")
+	}
+	return localSysUser
+}
+
+func RegisterSysUser(i ISysUser) {
+	localSysUser = i
 }

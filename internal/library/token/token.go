@@ -3,8 +3,8 @@ package token
 import (
 	"charon/internal/consts"
 	"charon/internal/library/cache"
-	"charon/internal/model"
 	"charon/internal/model/entity"
+	"charon/internal/model/public"
 	"context"
 	"fmt"
 	"github.com/gogf/gf/v2/errors/gerror"
@@ -14,9 +14,9 @@ import (
 	"time"
 )
 
-var cfg *model.Token
+var cfg *public.Token
 
-func SetConfig(c *model.Token) {
+func SetConfig(c *public.Token) {
 	cfg = c
 }
 

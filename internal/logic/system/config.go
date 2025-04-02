@@ -5,8 +5,8 @@ import (
 	"charon/internal/dao"
 	"charon/internal/library/cache"
 	"charon/internal/library/token"
-	"charon/internal/model"
 	"charon/internal/model/entity"
+	"charon/internal/model/public"
 	"charon/internal/service"
 	"context"
 	"github.com/gogf/gf/v2/container/garray"
@@ -130,7 +130,7 @@ func (s *sConfig) LoadAuthMenu(ctx context.Context) (err error) {
 	return err
 }
 
-func (s *sConfig) LoadToken(ctx context.Context) (cfg *model.Token, err error) {
+func (s *sConfig) LoadToken(ctx context.Context) (cfg *public.Token, err error) {
 	err = g.Cfg().MustGet(ctx, "token").Scan(&cfg)
 	return
 }

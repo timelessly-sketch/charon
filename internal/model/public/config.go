@@ -1,4 +1,4 @@
-package model
+package public
 
 type Token struct {
 	SecretKey  []byte `json:"SecretKey,omitempty"`

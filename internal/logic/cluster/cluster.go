@@ -3,8 +3,8 @@ package cluster
 import (
 	"charon/internal/dao"
 	"charon/internal/library/chorm"
-	"charon/internal/model"
 	"charon/internal/model/entity"
+	"charon/internal/model/public"
 	"charon/internal/service"
 	"context"
 	"github.com/gogf/gf/v2/database/gdb"
@@ -29,15 +29,14 @@ func (s *sCluster) List(ctx context.Context, page, size int) (records []entity.C
 
 // Edit 新增/编辑
 func (s *sCluster) Edit(ctx context.Context, cluster entity.Cluster) (err error) {
-	err = s.VerifyUnique(ctx, &model.VerifyUnique{
+	if err = s.VerifyUnique(ctx, &public.VerifyUnique{
 		Id: cluster.Id,
 		Where: g.Map{
 			dao.Cluster.Columns().Name:        cluster.Name,
 			dao.Cluster.Columns().Environment: cluster.Environment,
 		},
-	})
-	if err != nil {
-		return
+	}); err != nil {
+		return err
 	}
 
 	return g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) (err error) {
@@ -54,7 +53,7 @@ func (s *sCluster) Edit(ctx context.Context, cluster entity.Cluster) (err error)
 }
 
 // VerifyUnique 验证集群唯一属性
-func (s *sCluster) VerifyUnique(ctx context.Context, in *model.VerifyUnique) (err error) {
+func (s *sCluster) VerifyUnique(ctx context.Context, in *public.VerifyUnique) (err error) {
 	if in.Where == nil {
 		return
 	}

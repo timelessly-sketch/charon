@@ -22,11 +22,11 @@ var (
 		接口10230
 		配置10240
 	*/
-	CodeUserNotFound      = gcode.New(10211, "user not found", nil)
+	CodeUserNotFound      = gcode.New(10211, "用户不存在", nil)
 	CodeUserExists        = gcode.New(10212, "user exists", nil)
 	CodeUserNotMultiLogin = gcode.New(10213, "user not allow multiLogin", nil)
 	CodePasswordInvalid   = gcode.New(10214, "invalid password", nil)
-	CodeResetPassError    = gcode.New(10005, "reset password error", nil)
+	CodeResetPassError    = gcode.New(10005, "重置用户密码失败", nil)
 	CodeMenuExists        = gcode.New(10221, "menu exists", nil)
 	CodeApiExists         = gcode.New(10231, "api exists", nil)
 )
