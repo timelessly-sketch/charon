@@ -29,7 +29,6 @@ type Menu struct {
 	Order         int         `json:"order"         orm:"order"          description:"菜单排序权重"`         // 菜单排序权重
 	Roles         *gjson.Json `json:"roles"         orm:"roles"          description:"允许访问的角色列表"`      // 允许访问的角色列表
 	CreatedAt     *gtime.Time `json:"createdAt"     orm:"created_at"     description:"创建时间"`           // 创建时间
-	UpdatedBy     string      `json:"updatedBy"     orm:"updated_by"     description:"更新者"`            // 更新者
 	UpdatedAt     *gtime.Time `json:"updatedAt"     orm:"updated_at"     description:"更新时间"`           // 更新时间
 	DeletedAt     *gtime.Time `json:"deletedAt"     orm:"deleted_at"     description:"删除时间"`           // 删除时间
 }

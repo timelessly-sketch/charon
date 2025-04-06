@@ -23,6 +23,5 @@ type Cluster struct {
 	Remark      interface{} // 备注信息
 	CreatedAt   *gtime.Time // 创建时间
 	UpdatedAt   *gtime.Time // 更新时间
-	UpdatedBy   interface{} // 更新人
 	DeletedAt   *gtime.Time // 删除时间
 }

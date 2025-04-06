@@ -15,7 +15,6 @@ type Role struct {
 	Description string      `json:"description" orm:"description" description:"描述"`   // 描述
 	Remark      string      `json:"remark"      orm:"remark"      description:"备注"`   // 备注
 	CreatedAt   *gtime.Time `json:"createdAt"   orm:"created_at"  description:"创建时间"` // 创建时间
-	UpdatedBy   string      `json:"updatedBy"   orm:"updated_by"  description:"更新者"`  // 更新者
 	UpdatedAt   *gtime.Time `json:"updatedAt"   orm:"updated_at"  description:"更新时间"` // 更新时间
 	DeletedAt   *gtime.Time `json:"deletedAt"   orm:"deleted_at"  description:"删除时间"` // 删除时间
 }

@@ -21,7 +21,6 @@ func (c *cMenu) List(ctx context.Context, req *system.MenuListReq) (res *system.
 }
 
 func (c *cMenu) Edit(ctx context.Context, req *system.MenuEditReq) (_ *system.MenuEditRes, err error) {
-	req.UpdatedBy = service.Middleware().GetCtxUser(ctx).UserName
 	if err = service.SysMenu().MenuEdit(ctx, &req.Menu); err != nil {
 		return
 	}

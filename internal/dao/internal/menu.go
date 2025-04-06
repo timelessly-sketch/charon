@@ -39,7 +39,6 @@ type MenuColumns struct {
 	Order         string // 菜单排序权重
 	Roles         string // 允许访问的角色列表
 	CreatedAt     string // 创建时间
-	UpdatedBy     string // 更新者
 	UpdatedAt     string // 更新时间
 	DeletedAt     string // 删除时间
 }
@@ -64,7 +63,6 @@ var menuColumns = MenuColumns{
 	Order:         "order",
 	Roles:         "roles",
 	CreatedAt:     "created_at",
-	UpdatedBy:     "updated_by",
 	UpdatedAt:     "updated_at",
 	DeletedAt:     "deleted_at",
 }

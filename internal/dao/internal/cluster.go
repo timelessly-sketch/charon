@@ -32,7 +32,6 @@ type ClusterColumns struct {
 	Remark      string // 备注信息
 	CreatedAt   string // 创建时间
 	UpdatedAt   string // 更新时间
-	UpdatedBy   string // 更新人
 	DeletedAt   string // 删除时间
 }
 
@@ -49,7 +48,6 @@ var clusterColumns = ClusterColumns{
 	Remark:      "remark",
 	CreatedAt:   "created_at",
 	UpdatedAt:   "updated_at",
-	UpdatedBy:   "updated_by",
 	DeletedAt:   "deleted_at",
 }
 

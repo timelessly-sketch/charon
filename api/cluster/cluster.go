@@ -28,3 +28,12 @@ type TestReq struct {
 }
 
 type TestRes struct{}
+
+type EnvironmentListReq struct {
+	g.Meta `path:"/environmentList" method:"GET" summary:"获取环境"`
+	Prod   bool `json:"prod"`
+}
+
+type EnvironmentListRes struct {
+	Records []string `json:"records"`
+}

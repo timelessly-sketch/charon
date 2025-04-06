@@ -35,7 +35,6 @@ type UserColumns struct {
 	AvatarUrl  string // 头像
 	Remark     string // 备注
 	CreatedAt  string // 创建时间
-	UpdatedBy  string // 更新人
 	UpdatedAt  string // 更新时间
 	DeletedAt  string // 删除时间
 }
@@ -56,7 +55,6 @@ var userColumns = UserColumns{
 	AvatarUrl:  "avatar_url",
 	Remark:     "remark",
 	CreatedAt:  "created_at",
-	UpdatedBy:  "updated_by",
 	UpdatedAt:  "updated_at",
 	DeletedAt:  "deleted_at",
 }

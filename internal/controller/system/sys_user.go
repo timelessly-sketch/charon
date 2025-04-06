@@ -29,7 +29,6 @@ func (c *cUser) List(ctx context.Context, req *system.UserListReq) (res *system.
 }
 
 func (c *cUser) Edit(ctx context.Context, req *system.UserEditReq) (res *system.UserEditRes, err error) {
-	req.UpdatedBy = service.Middleware().GetCtxUser(ctx).UserName
 	if err := service.SysUser().Edit(ctx, &req.User); err != nil {
 		g.Log().Warning(ctx, err)
 		return nil, gerror.NewCode(consts.CodeDbOperationError)

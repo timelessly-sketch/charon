@@ -21,7 +21,6 @@ type Api struct {
 	ApiType   string      `json:"apiType"   orm:"api_type"   description:"接口或者目录"`           // 接口或者目录
 	Roles     *gjson.Json `json:"roles"     orm:"roles"      description:"权限列表"`             // 权限列表
 	CreatedAt *gtime.Time `json:"createdAt" orm:"created_at" description:"创建时间"`             // 创建时间
-	UpdatedBy string      `json:"updatedBy" orm:"updated_by" description:"更新人"`              // 更新人
 	UpdatedAt *gtime.Time `json:"updatedAt" orm:"updated_at" description:"更新时间"`             // 更新时间
 	DeletedAt *gtime.Time `json:"deletedAt" orm:"deleted_at" description:"删除时间"`             // 删除时间
 }

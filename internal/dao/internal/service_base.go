@@ -11,78 +11,78 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 )
 
-// K8SClusterDao is the data access object for the table tb_k8s_cluster.
-type K8SClusterDao struct {
+// ServiceBaseDao is the data access object for the table tb_service_base.
+type ServiceBaseDao struct {
 	table    string             // table is the underlying table name of the DAO.
 	group    string             // group is the database configuration group name of the current DAO.
-	columns  K8SClusterColumns  // columns contains all the column names of Table for convenient usage.
+	columns  ServiceBaseColumns // columns contains all the column names of Table for convenient usage.
 	handlers []gdb.ModelHandler // handlers for customized model modification.
 }
 
-// K8SClusterColumns defines and stores column names for the table tb_k8s_cluster.
-type K8SClusterColumns struct {
-	Id          string // 集群唯一ID
-	Name        string // 集群名称(唯一)
-	ApiServer   string // API Server地址
-	AuthConfig  string // 认证配置(使用token认证)
-	Environment string // 所属环境
-	Region      string // 物理区域/地理位置
-	Status      string // 集群状态 1-正常 2-异常
+// ServiceBaseColumns defines and stores column names for the table tb_service_base.
+type ServiceBaseColumns struct {
+	Id          string // 自增ID
+	BaseId      string // 服务唯一ID (UUID)
+	Name        string // 服务名称
+	Type        string // 服务类型
+	Status      string // 服务状态
+	Environment string // 部署环境
+	Project     string // 所属项目组
+	GitUrl      string // 代码仓库信息
 	CreatedAt   string // 创建时间
 	UpdatedAt   string // 更新时间
-	UpdatedBy   string // 更新人
 	DeletedAt   string // 删除时间
-	Remark      string // 备注信息
+	Description string // 服务描述
 }
 
-// k8SClusterColumns holds the columns for the table tb_k8s_cluster.
-var k8SClusterColumns = K8SClusterColumns{
+// serviceBaseColumns holds the columns for the table tb_service_base.
+var serviceBaseColumns = ServiceBaseColumns{
 	Id:          "id",
+	BaseId:      "base_id",
 	Name:        "name",
-	ApiServer:   "api_server",
-	AuthConfig:  "auth_config",
-	Environment: "environment",
-	Region:      "region",
+	Type:        "type",
 	Status:      "status",
+	Environment: "environment",
+	Project:     "project",
+	GitUrl:      "git_url",
 	CreatedAt:   "created_at",
 	UpdatedAt:   "updated_at",
-	UpdatedBy:   "updated_by",
 	DeletedAt:   "deleted_at",
-	Remark:      "remark",
+	Description: "description",
 }
 
-// NewK8SClusterDao creates and returns a new DAO object for table data access.
-func NewK8SClusterDao(handlers ...gdb.ModelHandler) *K8SClusterDao {
-	return &K8SClusterDao{
+// NewServiceBaseDao creates and returns a new DAO object for table data access.
+func NewServiceBaseDao(handlers ...gdb.ModelHandler) *ServiceBaseDao {
+	return &ServiceBaseDao{
 		group:    "default",
-		table:    "tb_k8s_cluster",
-		columns:  k8SClusterColumns,
+		table:    "tb_service_base",
+		columns:  serviceBaseColumns,
 		handlers: handlers,
 	}
 }
 
 // DB retrieves and returns the underlying raw database management object of the current DAO.
-func (dao *K8SClusterDao) DB() gdb.DB {
+func (dao *ServiceBaseDao) DB() gdb.DB {
 	return g.DB(dao.group)
 }
 
 // Table returns the table name of the current DAO.
-func (dao *K8SClusterDao) Table() string {
+func (dao *ServiceBaseDao) Table() string {
 	return dao.table
 }
 
 // Columns returns all column names of the current DAO.
-func (dao *K8SClusterDao) Columns() K8SClusterColumns {
+func (dao *ServiceBaseDao) Columns() ServiceBaseColumns {
 	return dao.columns
 }
 
 // Group returns the database configuration group name of the current DAO.
-func (dao *K8SClusterDao) Group() string {
+func (dao *ServiceBaseDao) Group() string {
 	return dao.group
 }
 
 // Ctx creates and returns a Model for the current DAO. It automatically sets the context for the current operation.
-func (dao *K8SClusterDao) Ctx(ctx context.Context) *gdb.Model {
+func (dao *ServiceBaseDao) Ctx(ctx context.Context) *gdb.Model {
 	model := dao.DB().Model(dao.table)
 	for _, handler := range dao.handlers {
 		model = handler(model)
@@ -96,6 +96,6 @@ func (dao *K8SClusterDao) Ctx(ctx context.Context) *gdb.Model {
 //
 // Note: Do not commit or roll back the transaction in function f,
 // as it is automatically handled by this function.
-func (dao *K8SClusterDao) Transaction(ctx context.Context, f func(ctx context.Context, tx gdb.TX) error) (err error) {
+func (dao *ServiceBaseDao) Transaction(ctx context.Context, f func(ctx context.Context, tx gdb.TX) error) (err error) {
 	return dao.Ctx(ctx).Transaction(ctx, f)
 }

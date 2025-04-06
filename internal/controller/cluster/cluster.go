@@ -29,7 +29,6 @@ func (c *cCluster) List(ctx context.Context, req *cluster.ListReq) (res *cluster
 }
 
 func (c *cCluster) Edit(ctx context.Context, req *cluster.EditReq) (res *cluster.EditRes, err error) {
-	req.UpdatedBy = service.Middleware().GetCtxUser(ctx).UserName
 	if err = service.Cluster().Edit(ctx, req.Cluster); err != nil {
 		g.Log().Warning(ctx, err)
 		return
@@ -39,5 +38,13 @@ func (c *cCluster) Edit(ctx context.Context, req *cluster.EditReq) (res *cluster
 
 func (c *cCluster) TestCluster(ctx context.Context, req *cluster.TestReq) (res *cluster.TestRes, err error) {
 	err = service.Cluster().TestCusterReady(ctx, req.Id)
+	return
+}
+
+func (c *cCluster) EnvironmentList(ctx context.Context, req *cluster.EnvironmentListReq) (res *cluster.EnvironmentListRes, err error) {
+	records, err := service.Cluster().EnvironmentList(ctx, req.Prod)
+	res = &cluster.EnvironmentListRes{
+		Records: records,
+	}
 	return
 }

@@ -24,7 +24,6 @@ func (c *cApi) List(ctx context.Context, _ *system.ApiListReq) (res *system.ApiL
 }
 
 func (c *cApi) Edit(ctx context.Context, req *system.ApiEditReq) (_ *system.ApiListRes, err error) {
-	req.UpdatedBy = service.Middleware().GetCtxUser(ctx).UserName
 	if err = service.SysApi().Edit(ctx, req.Api); err != nil {
 		return
 	}

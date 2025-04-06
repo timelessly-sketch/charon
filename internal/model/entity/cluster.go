@@ -21,6 +21,5 @@ type Cluster struct {
 	Remark      string      `json:"remark"      orm:"remark"      description:"备注信息"`                       // 备注信息
 	CreatedAt   *gtime.Time `json:"createdAt"   orm:"created_at"  description:"创建时间"`                       // 创建时间
 	UpdatedAt   *gtime.Time `json:"updatedAt"   orm:"updated_at"  description:"更新时间"`                       // 更新时间
-	UpdatedBy   string      `json:"updatedBy"   orm:"updated_by"  description:"更新人"`                        // 更新人
 	DeletedAt   *gtime.Time `json:"deletedAt"   orm:"deleted_at"  description:"删除时间"`                       // 删除时间
 }

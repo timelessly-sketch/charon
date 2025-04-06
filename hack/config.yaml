@@ -9,9 +9,6 @@ gfcli:
         removePrefix: tb_
         jsonCase: "CamelLower"
         gJsonSupport: true
-
-
-  docker:
-    build: "-a amd64 -s linux -p temp -ew"
-    tagPrefixes:
-      - my.image.pub/my-app
+    enums:
+      src: "internal/consts"
+      path: "service_enums.go"

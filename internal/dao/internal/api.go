@@ -31,7 +31,6 @@ type ApiColumns struct {
 	ApiType   string // 接口或者目录
 	Roles     string // 权限列表
 	CreatedAt string // 创建时间
-	UpdatedBy string // 更新人
 	UpdatedAt string // 更新时间
 	DeletedAt string // 删除时间
 }
@@ -48,7 +47,6 @@ var apiColumns = ApiColumns{
 	ApiType:   "api_type",
 	Roles:     "roles",
 	CreatedAt: "created_at",
-	UpdatedBy: "updated_by",
 	UpdatedAt: "updated_at",
 	DeletedAt: "deleted_at",
 }

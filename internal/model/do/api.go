@@ -23,7 +23,6 @@ type Api struct {
 	ApiType   interface{} // 接口或者目录
 	Roles     *gjson.Json // 权限列表
 	CreatedAt *gtime.Time // 创建时间
-	UpdatedBy interface{} // 更新人
 	UpdatedAt *gtime.Time // 更新时间
 	DeletedAt *gtime.Time // 删除时间
 }

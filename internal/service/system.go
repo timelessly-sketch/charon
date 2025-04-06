@@ -27,6 +27,8 @@ type (
 		RoleList(ctx context.Context) (records []entity.Role, err error)
 		MenuList(ctx context.Context, id int) (records []entity.Menu, err error)
 		MenuEdit(ctx context.Context, menu *entity.Menu) (err error)
+		// VerifyUnique 验证菜单唯一属性
+		VerifyUnique(ctx context.Context, in *public.VerifyUnique) (err error)
 	}
 	ISysUser interface {
 		// List 获取用户列表

@@ -9,6 +9,7 @@ import (
 	"charon/internal/model/public"
 	"charon/internal/service"
 	"context"
+	"github.com/gogf/gf/v2/container/gvar"
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
@@ -99,5 +100,12 @@ func (s *sCluster) TestCusterReady(ctx context.Context, id int) (err error) {
 	g.Log().Infof(ctx, "%s集群测试成功", cluster.Environment)
 
 	_, err = dao.Cluster.Ctx(ctx).WherePri(id).Data(g.Map{dao.Cluster.Columns().Status: "1"}).Update()
+	return
+}
+
+func (s *sCluster) EnvironmentList(ctx context.Context, auto bool) (records []string, err error) {
+	array, err := dao.Cluster.Ctx(ctx).OmitEmpty().Fields(dao.Cluster.Columns().Environment).
+		Where(dao.Cluster.Columns().AutoMated, auto).Array()
+	records = gvar.New(array).Strings()
 	return
 }

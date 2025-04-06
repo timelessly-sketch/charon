@@ -31,7 +31,6 @@ type Menu struct {
 	Order         interface{} // 菜单排序权重
 	Roles         *gjson.Json // 允许访问的角色列表
 	CreatedAt     *gtime.Time // 创建时间
-	UpdatedBy     interface{} // 更新者
 	UpdatedAt     *gtime.Time // 更新时间
 	DeletedAt     *gtime.Time // 删除时间
 }
