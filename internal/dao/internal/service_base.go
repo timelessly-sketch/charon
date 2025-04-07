@@ -24,7 +24,7 @@ type ServiceBaseColumns struct {
 	Id          string // 自增ID
 	BaseId      string // 服务唯一ID (UUID)
 	Name        string // 服务名称
-	Type        string // 服务类型
+	ServiceType string // 服务类型
 	Status      string // 服务状态
 	Environment string // 部署环境
 	Project     string // 所属项目组
@@ -40,7 +40,7 @@ var serviceBaseColumns = ServiceBaseColumns{
 	Id:          "id",
 	BaseId:      "base_id",
 	Name:        "name",
-	Type:        "type",
+	ServiceType: "service_type",
 	Status:      "status",
 	Environment: "environment",
 	Project:     "project",

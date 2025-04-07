@@ -15,7 +15,7 @@ type ServiceBase struct {
 	Id          interface{} // 自增ID
 	BaseId      interface{} // 服务唯一ID (UUID)
 	Name        interface{} // 服务名称
-	Type        interface{} // 服务类型
+	ServiceType interface{} // 服务类型
 	Status      interface{} // 服务状态
 	Environment interface{} // 部署环境
 	Project     interface{} // 所属项目组

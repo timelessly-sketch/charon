@@ -30,4 +30,5 @@ var (
 	CodeMenuExists        = gcode.New(10221, "菜单已经存在", nil)
 	CodeClusterNotFound   = gcode.New(10250, "集群不存在", nil)
 	CodeClusterInitError  = gcode.New(10251, "集群测试失败,请检查参数", nil)
+	CodeServiceExists     = gcode.New(10252, "该环境服务已存在", nil)
 )

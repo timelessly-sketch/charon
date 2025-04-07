@@ -7,7 +7,9 @@ import (
 	"charon/internal/service"
 	"context"
 	"github.com/gogf/gf/v2/database/gdb"
+	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/google/uuid"
 )
 
 type sService struct{}
@@ -42,6 +44,55 @@ func (s *sService) List(ctx context.Context, serviceType consts.ServiceType, env
 		return containerList, total, nil
 	case consts.Cvm:
 
+	}
+	return
+}
+
+func (s *sService) EditKubernetesService(ctx context.Context, containers public.KubernetesService) (err error) {
+	if err = s.VerifyUnique(ctx, &public.VerifyUnique{
+		Id: containers.ServiceBase.Id,
+		Where: g.Map{
+			dao.ServiceBase.Columns().Name:        containers.ServiceBase.Name,
+			dao.ServiceBase.Columns().Environment: containers.ServiceBase.Environment,
+		},
+	}); err != nil {
+		return err
+	}
+	if containers.ServiceBase.Id > 0 {
+		return g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) (err error) {
+			if _, err = dao.ServiceBase.Ctx(ctx).WherePri(containers.ServiceBase.Id).Data(&containers.ServiceBase).Update(); err != nil {
+				return err
+			}
+			if _, err = dao.ServiceContainers.Ctx(ctx).WherePri(containers.ServiceContainers.ServiceId).
+				Data(&containers.ServiceContainers).Update(); err != nil {
+				return err
+			}
+			return
+		})
+	}
+
+	id, _ := uuid.NewRandom()
+	containers.ServiceBase.BaseId, containers.ServiceContainers.ServiceId = id.String(), id.String()
+	if containers.ServiceContainers.Containers == "" {
+		containers.ServiceContainers.Containers = containers.ServiceBase.Name
+	}
+
+	return g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) (err error) {
+		if _, err = dao.ServiceBase.Ctx(ctx).Data(&containers.ServiceBase).Insert(); err != nil {
+			return err
+		}
+		if _, err = dao.ServiceContainers.Ctx(ctx).Data(&containers.ServiceContainers).Insert(); err != nil {
+			return err
+		}
+		return
+	})
+}
+
+func (s *sService) VerifyUnique(ctx context.Context, in *public.VerifyUnique) (err error) {
+	count, err := dao.ServiceBase.Ctx(ctx).Where(in.Where).WhereNot(dao.ServiceBase.Columns().Id, in.Id).Count()
+	if err != nil || count > 0 {
+		g.Log().Warning(ctx, err)
+		return gerror.NewCode(consts.CodeServiceExists)
 	}
 	return
 }

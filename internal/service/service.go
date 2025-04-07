@@ -14,6 +14,8 @@ import (
 type (
 	IService interface {
 		List(ctx context.Context, serviceType consts.ServiceType, environment string, name string, page public.Pagination) (records any, total int, err error)
+		EditKubernetesService(ctx context.Context, containers public.KubernetesService) (err error)
+		VerifyUnique(ctx context.Context, in *public.VerifyUnique) (err error)
 	}
 )
 
